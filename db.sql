@@ -1,47 +1,43 @@
--- جدول العملاء
 CREATE TABLE Customers (
-    CustomerID INT PRIMARY KEY AUTO_INCREMENT,
+    CustomerID INTEGER PRIMARY KEY,
     Name VARCHAR(100) NOT NULL,
     Email VARCHAR(100) UNIQUE NOT NULL,
     Phone VARCHAR(20),
     Address TEXT
 );
 
--- جدول المنتجات
 CREATE TABLE Products (
-    ProductID INT PRIMARY KEY AUTO_INCREMENT,
+    ProductID INTEGER PRIMARY KEY,
     Name VARCHAR(100) NOT NULL,
     Category VARCHAR(50),
-    Price DECIMAL(10,2) NOT NULL,
-    StockQuantity INT NOT NULL DEFAULT 0
+    Price NUMERIC NOT NULL,
+    StockQuantity INTEGER NOT NULL
 );
 
--- جدول الطلبات
 CREATE TABLE Orders (
-    OrderID INT PRIMARY KEY AUTO_INCREMENT,
-    CustomerID INT NOT NULL,
-    OrderDate DATETIME DEFAULT CURRENT_TIMESTAMP,
-    Status VARCHAR(20) DEFAULT 'Pending',
+    OrderID INTEGER PRIMARY KEY,
+    CustomerID INTEGER NOT NULL,
+    OrderDate TIMESTAMP,
+    Status VARCHAR(20),
     FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
 );
 
--- جدول تفاصيل الطلبات (العلاقة Many-to-Many بين Orders و Products)
 CREATE TABLE OrderItems (
-    OrderItemID INT PRIMARY KEY AUTO_INCREMENT,
-    OrderID INT NOT NULL,
-    ProductID INT NOT NULL,
-    Quantity INT NOT NULL,
-    PriceAtPurchase DECIMAL(10,2) NOT NULL,
+    OrderItemID INTEGER PRIMARY KEY,
+    OrderID INTEGER NOT NULL,
+    ProductID INTEGER NOT NULL,
+    Quantity INTEGER NOT NULL,
+    PriceAtPurchase NUMERIC NOT NULL,
     FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
     FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
 );
 
--- جدول المدفوعات
 CREATE TABLE Payments (
-    PaymentID INT PRIMARY KEY AUTO_INCREMENT,
-    OrderID INT NOT NULL,
-    PaymentDate DATETIME DEFAULT CURRENT_TIMESTAMP,
-    Amount DECIMAL(10,2) NOT NULL,
+    PaymentID INTEGER PRIMARY KEY,
+    OrderID INTEGER NOT NULL,
+    PaymentDate TIMESTAMP,
+    Amount NUMERIC NOT NULL,
     PaymentMethod VARCHAR(50),
     FOREIGN KEY (OrderID) REFERENCES Orders(OrderID)
 );
+
